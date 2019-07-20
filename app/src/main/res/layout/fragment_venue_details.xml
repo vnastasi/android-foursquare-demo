@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="venue" type="nl.zoostation.fsd.persistence.model.Venue"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Group
+                app:constraint_referenced_ids="txtVenueName"
+                android:id="@+id/mainContentGroup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtVenueName"
+                tools:text="Cafe du Nord"
+                android:textAppearance="?textAppearanceHeadline4"
+                android:text="@{venue.name}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <ProgressBar
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:id="@+id/progressBar"
+                android:layout_width="64dp"
+                android:layout_height="64dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

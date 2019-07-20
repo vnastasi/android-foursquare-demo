@@ -1,4 +1,4 @@
-package nl.zoostation.fsd.screens.list
+package nl.zoostation.fsd.screens.detail
 
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
@@ -6,44 +6,33 @@ import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
-import nl.zoostation.fsd.persistence.model.Venue
 import nl.zoostation.fsd.repository.VenueRepository
 
-class VenueListViewModel(
+class VenueDetailsViewModel(
     private val venueRepository: VenueRepository,
     private val ioScheduler: Scheduler,
     private val mainScheduler: Scheduler
-) : ViewModel() {
+): ViewModel() {
 
     private val disposables = CompositeDisposable()
 
-    val listState: LiveData<VenueListState> = MutableLiveData()
-
-    val selectedVenue: LiveData<Venue> = MutableLiveData()
-
-    var lastSearchedPlace: String = ""
-        private set
+    val detailsState: LiveData<VenueDetailsState> = MutableLiveData()
 
     override fun onCleared() {
         super.onCleared()
         disposables.clear()
     }
 
-    fun onSearchVenues(place: String) {
-        lastSearchedPlace = place
-        venueRepository.searchVenues(place)
+    fun onLoadDetails(venueId: String) {
+        venueRepository.getVenueDetails(venueId)
             .subscribeOn(ioScheduler)
             .observeOn(mainScheduler)
-            .doOnSubscribe { listState.mutate().value = VenueListState.Loading }
+            .doOnSubscribe { detailsState.mutate().value = VenueDetailsState.Loading }
             .subscribeBy(
-                onSuccess = { listState.mutate().value = VenueListState.Loaded(it) },
-                onError = { listState.mutate().value = VenueListState.Failed(it) }
+                onSuccess = { detailsState.mutate().value = VenueDetailsState.Loaded(it) },
+                onError = { detailsState.mutate().value = VenueDetailsState.Failed(it) }
             )
             .addTo(disposables)
-    }
-
-    fun onVenueSelected(venue: Venue) {
-        selectedVenue.mutate().value = venue
     }
 
     private fun <T> LiveData<T>.mutate() = this as MutableLiveData<T>
@@ -53,15 +42,15 @@ class VenueListViewModel(
         private val ioScheduler: Scheduler,
         private val mainScheduler: Scheduler
     ) : ViewModelProvider.Factory {
-
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(modelClass: Class<T>): T =
-            VenueListViewModel(venueRepository, ioScheduler, mainScheduler) as T
+            VenueDetailsViewModel(venueRepository, ioScheduler, mainScheduler) as T
+
     }
 
     companion object {
 
-        fun obtain(scope: FragmentActivity, factory: Factory): VenueListViewModel =
-            ViewModelProviders.of(scope, factory)[VenueListViewModel::class.java]
+        fun obtain(scope: FragmentActivity, factory: Factory): VenueDetailsViewModel =
+            ViewModelProviders.of(scope, factory)[VenueDetailsViewModel::class.java]
     }
 }

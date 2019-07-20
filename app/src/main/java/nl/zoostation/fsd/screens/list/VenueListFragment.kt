@@ -21,7 +21,7 @@ class VenueListFragment : Fragment() {
 
     private val listStateObserver = Observer<VenueListState> { it?.run { handleListStateChange(this) } }
 
-    private val listAdapter = VenueListAdapter()
+    private lateinit var listAdapter: VenueListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,13 +35,13 @@ class VenueListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         startObserving()
+        setupList()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.venue_search_menu, menu)
         val menuItem = requireNotNull(menu.findItem(R.id.app_bar_search))
         setupSearch(menuItem)
-        setupList()
     }
 
     private fun startObserving() {
@@ -64,6 +64,7 @@ class VenueListFragment : Fragment() {
     }
 
     private fun setupList() {
+        listAdapter = VenueListAdapter(viewModel)
         recyclerView.adapter = listAdapter
         swipeRefresh.setOnRefreshListener { viewModel.onSearchVenues(viewModel.lastSearchedPlace) }
     }

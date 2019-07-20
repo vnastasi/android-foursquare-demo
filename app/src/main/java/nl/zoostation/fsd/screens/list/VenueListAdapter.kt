@@ -11,7 +11,9 @@ import nl.zoostation.fsd.R
 import nl.zoostation.fsd.databinding.VenueListItemBinding
 import nl.zoostation.fsd.persistence.model.Venue
 
-class VenueListAdapter : ListAdapter<Venue, VenueListAdapter.ViewHolder>(DiffCallback()) {
+class VenueListAdapter(
+    private val viewModel: VenueListViewModel
+) : ListAdapter<Venue, VenueListAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemBinding = bindLayout(parent)
@@ -20,7 +22,7 @@ class VenueListAdapter : ListAdapter<Venue, VenueListAdapter.ViewHolder>(DiffCal
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val venue = getItem(position)
-        holder.bind(venue)
+        holder.bind(venue, viewModel)
     }
 
     private fun bindLayout(parent: ViewGroup): VenueListItemBinding {
@@ -32,8 +34,9 @@ class VenueListAdapter : ListAdapter<Venue, VenueListAdapter.ViewHolder>(DiffCal
         private val itemBinding: VenueListItemBinding
     ) : RecyclerView.ViewHolder(itemBinding.root) {
 
-        fun bind(venue: Venue) {
+        fun bind(venue: Venue, viewModel: VenueListViewModel) {
             itemBinding.setVariable(BR.venue, venue)
+            itemBinding.setVariable(BR.viewModel, viewModel)
             itemBinding.executePendingBindings()
         }
     }

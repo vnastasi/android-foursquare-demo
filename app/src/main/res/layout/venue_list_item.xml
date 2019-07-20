@@ -4,6 +4,7 @@
 
     <data>
         <variable name="venue" type="nl.zoostation.fsd.persistence.model.Venue"/>
+        <variable name="viewModel" type="nl.zoostation.fsd.screens.list.VenueListViewModel"/>
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -16,7 +17,8 @@
             app:contentPadding="8dp"
             app:cardElevation="2dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.onVenueSelected(venue)}">
 
         <LinearLayout
                 android:orientation="vertical"

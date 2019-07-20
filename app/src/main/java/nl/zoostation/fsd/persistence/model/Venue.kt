@@ -22,7 +22,10 @@ data class Venue(
     val description: String? = null,
 
     @ColumnInfo(name = "rating")
-    val rating: Double? = null,
+    val rating: Float? = null,
+
+    @ColumnInfo(name = "incomplete")
+    val incomplete: Boolean = true,
 
     @Embedded
     val location: Location,

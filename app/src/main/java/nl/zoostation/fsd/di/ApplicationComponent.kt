@@ -4,6 +4,7 @@ import android.app.Application
 import dagger.BindsInstance
 import dagger.Component
 import nl.zoostation.fsd.screens.MainActivity
+import nl.zoostation.fsd.screens.detail.VenueDetailsFragment
 import nl.zoostation.fsd.screens.list.VenueListFragment
 import javax.inject.Singleton
 
@@ -14,6 +15,8 @@ interface ApplicationComponent {
     fun inject(activity: MainActivity)
 
     fun inject(venueListFragment: VenueListFragment)
+
+    fun inject(venueDetailsFragment: VenueDetailsFragment)
 
     @Component.Builder
     interface Builder {
