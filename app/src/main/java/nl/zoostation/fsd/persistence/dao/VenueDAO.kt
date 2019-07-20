@@ -1,19 +1,16 @@
 package nl.zoostation.fsd.persistence.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import nl.zoostation.fsd.persistence.model.Venue
 import nl.zoostation.fsd.persistence.model.VenueDetails
 
 @Dao
-interface VenueDao {
+interface VenueDAO {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(venue: Venue)
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     fun update(venue: Venue)
 
     @Query("SELECT * FROM venues WHERE city LIKE '%'||:place||'%' LIMIT 10")

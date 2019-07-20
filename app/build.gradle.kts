@@ -14,6 +14,10 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "BASE_URL", "\"https://api.foursquare.com\"")
+        buildConfigField("String", "CLIENT_ID", "\"L2UXPM54VOBZJRQWKVIZLYAQHJJH3FTJTQIBULVQO2E0FQ2L\"")
+        buildConfigField("String", "CLIENT_SECRET", "\"FEQ4JVCEMTJSWLL5ZMWYOZB1SO2C241NP0WRPFXYWAHWIRHL\"")
     }
     buildTypes {
         getByName("release") {

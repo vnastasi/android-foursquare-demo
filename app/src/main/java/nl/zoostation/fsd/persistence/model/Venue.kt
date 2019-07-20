@@ -1,6 +1,9 @@
 package nl.zoostation.fsd.persistence.model
 
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "venues")
 data class Venue(
@@ -12,15 +15,18 @@ data class Venue(
     @ColumnInfo(name = "name")
     val name: String,
 
+    @ColumnInfo(name = "category")
+    val category: String? = null,
+
     @ColumnInfo(name = "description")
-    val description: String?,
+    val description: String? = null,
 
     @ColumnInfo(name = "rating")
-    val rating: Double?,
+    val rating: Double? = null,
 
     @Embedded
     val location: Location,
 
     @Embedded
-    val contactInfo: ContactInfo
+    val contactInfo: ContactInfo = ContactInfo()
 )
