@@ -5,6 +5,7 @@ import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import nl.zoostation.fsd.persistence.FoursquareDemoDatabase
+import nl.zoostation.fsd.persistence.dao.PlaceDAO
 import nl.zoostation.fsd.persistence.dao.VenueDAO
 import javax.inject.Singleton
 
@@ -19,4 +20,8 @@ class PersistenceModule {
     @Provides
     @Singleton
     fun provideVenueDao(database: FoursquareDemoDatabase): VenueDAO = database.getVenueDAO()
+
+    @Provides
+    @Singleton
+    fun providePlaceDAO(database: FoursquareDemoDatabase): PlaceDAO = database.getPlaceDAO()
 }

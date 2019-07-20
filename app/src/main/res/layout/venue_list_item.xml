@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable name="venue" type="nl.zoostation.fsd.persistence.model.Venue"/>
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:foreground="?selectableItemBackground"
+            android:focusable="true"
+            android:clickable="true"
+            app:contentPadding="8dp"
+            app:cardElevation="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:text="@{venue.name}"
+                    tools:text="Venue name"
+                    android:textAppearance="?textAppearanceBody1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:text="@{venue.location.formatAddress()}"
+                    tools:text="Herengracht 12, 1234AS, Amsterdam, Noord-Holland, Nederland"
+                    android:layout_marginTop="4dp"
+                    android:textAppearance="?textAppearanceCaption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>

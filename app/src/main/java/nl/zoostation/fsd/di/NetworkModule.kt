@@ -3,20 +3,16 @@ package nl.zoostation.fsd.di
 import android.app.Application
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import dagger.Module
 import dagger.Provides
 import nl.zoostation.fsd.BuildConfig
 import nl.zoostation.fsd.api.ApiConstants
-import nl.zoostation.fsd.api.adapter.VenueSearchItemListAdapter
 import nl.zoostation.fsd.api.client.RawVenueApiClient
 import nl.zoostation.fsd.api.client.VenueApiClient
 import nl.zoostation.fsd.api.client.impl.VenueApiClientImpl
 import nl.zoostation.fsd.api.interceptor.CredentialsInterceptor
 import nl.zoostation.fsd.api.interceptor.NetworkAvailabilityInterceptor
 import nl.zoostation.fsd.api.interceptor.VersionInterceptor
-import nl.zoostation.fsd.api.model.VenueSearchItem
-import nl.zoostation.fsd.persistence.model.Venue
 import okhttp3.Cache
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -33,10 +29,7 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideGson(): Gson {
-        val venueSearchItemListToken = object : TypeToken<List<Venue>>() {}.type
-        return GsonBuilder()
-            .registerTypeAdapter(venueSearchItemListToken, VenueSearchItemListAdapter())
-            .create()
+        return GsonBuilder().create()
     }
 
     @Provides

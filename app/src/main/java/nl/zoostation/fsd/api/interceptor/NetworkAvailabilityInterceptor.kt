@@ -11,7 +11,7 @@ class NetworkAvailabilityInterceptor(
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        if (SystemUtils.isNetworkConnected(application)) {
+        if (!SystemUtils.isNetworkConnected(application)) {
             throw NetworkUnavailableException()
         }
         return chain.proceed(chain.request())

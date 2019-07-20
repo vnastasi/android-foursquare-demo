@@ -3,6 +3,7 @@ package nl.zoostation.fsd.di
 import dagger.Module
 import dagger.Provides
 import nl.zoostation.fsd.api.client.VenueApiClient
+import nl.zoostation.fsd.persistence.dao.PlaceDAO
 import nl.zoostation.fsd.persistence.dao.VenueDAO
 import nl.zoostation.fsd.repository.VenueRepository
 import nl.zoostation.fsd.repository.VenueRepositoryImpl
@@ -15,7 +16,8 @@ class RepositoryModule {
     @Singleton
     fun provideVenueRepository(
         venueDAO: VenueDAO,
+        placeDAO: PlaceDAO,
         venueApiClient: VenueApiClient
     ): VenueRepository =
-        VenueRepositoryImpl(venueDAO, venueApiClient)
+        VenueRepositoryImpl(venueDAO, placeDAO, venueApiClient)
 }

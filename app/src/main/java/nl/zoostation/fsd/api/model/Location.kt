@@ -5,19 +5,19 @@ import com.google.gson.annotations.SerializedName
 data class Location(
 
     @field:SerializedName("address")
-    val address: String,
+    val address: String?,
 
     @field:SerializedName("postalCode")
-    val postalCode: String,
+    val postalCode: String?,
 
     @field:SerializedName("city")
-    val city: String,
+    val city: String?,
 
     @field:SerializedName("state")
-    val state: String,
+    val state: String?,
 
     @field:SerializedName("country")
-    val country: String,
+    val country: String?,
 
     @field:SerializedName("lat")
     val latitude: Double,

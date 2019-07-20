@@ -28,5 +28,5 @@ data class Venue(
     val location: Location,
 
     @Embedded
-    val contactInfo: ContactInfo = ContactInfo()
+    val contactInfo: ContactInfo? = ContactInfo()
 )

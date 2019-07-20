@@ -13,7 +13,7 @@ interface VenueDAO {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun update(venue: Venue)
 
-    @Query("SELECT * FROM venues WHERE city LIKE '%'||:place||'%' LIMIT 10")
+    @Query("SELECT v.* FROM venues v INNER JOIN places p ON v.venue_id = p.venue_id WHERE p.name LIKE '%'||:place||'%'")
     fun findVenues(place: String): List<Venue>
 
     @Query("SELECT * FROM venues WHERE venue_id = :id")
