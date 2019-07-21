@@ -9,12 +9,14 @@ import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_venue_details.*
 import nl.zoostation.fsd.BR
 import nl.zoostation.fsd.R
 import nl.zoostation.fsd.app.applicationComponent
 import nl.zoostation.fsd.databinding.FragmentVenueDetailsBinding
+import nl.zoostation.fsd.persistence.model.VenueDetails
 import nl.zoostation.fsd.screens.hide
 import nl.zoostation.fsd.screens.show
 import javax.inject.Inject
@@ -61,6 +63,7 @@ class VenueDetailsFragment : Fragment() {
                 hideProgressBar()
                 dataBinding.setVariable(BR.venue, state.details.venue)
                 dataBinding.executePendingBindings()
+                showPhoto(state.details)
             }
 
             is VenueDetailsState.Failed -> {
@@ -80,6 +83,17 @@ class VenueDetailsFragment : Fragment() {
     private fun hideProgressBar() {
         progressBar.hide()
         mainContentGroup.show()
+    }
+
+    private fun showPhoto(venueDetails: VenueDetails) {
+        if (venueDetails.photos.isNotEmpty()) {
+            Glide.with(this)
+                .load(venueDetails.photos[0].url)
+                .placeholder(R.drawable.ic_photo_camera)
+                .into(imgVenuePhoto)
+        } else {
+            imgVenuePhoto.setImageResource(R.drawable.ic_photo_camera)
+        }
     }
 
     companion object {

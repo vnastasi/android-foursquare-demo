@@ -61,10 +61,11 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.5.0")
     implementation("com.squareup.okhttp3:logging-interceptor:3.9.1")
     implementation("com.google.dagger:dagger:2.16")
-    implementation("com.jakewharton.threetenabp:threetenabp:1.2.0")
+    implementation("com.github.bumptech.glide:glide:4.9.0")
 
     kapt("androidx.room:room-compiler:2.1.0")
     kapt("com.google.dagger:dagger-compiler:2.16")
+    kapt("com.github.bumptech.glide:compiler:4.9.0")
 
     testImplementation("junit:junit:4.12")
     testImplementation("org.assertj:assertj-core:3.12.2")
