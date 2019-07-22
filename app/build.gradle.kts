@@ -71,6 +71,7 @@ dependencies {
     testImplementation("org.assertj:assertj-core:3.12.2")
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0")
     testImplementation("androidx.room:room-testing:2.1.0")
+    testImplementation("androidx.arch.core:core-testing:2.0.1")
 
     androidTestImplementation("androidx.test:core:1.2.0")
     androidTestImplementation("androidx.test:runner:1.2.0")

@@ -1,6 +1,5 @@
 package nl.zoostation.fsd.repository
 
-import android.util.Log
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.ObservableSource
@@ -49,7 +48,6 @@ class VenueRepositoryImpl(
     private fun searchFromDatabase(place: String): Observable<Venue> =
         Observable.fromCallable { venueDAO.findVenues(place) }
             .flatMapIterable { it }
-            .doOnSubscribe { Log.d(LOG_TAG, "Searching from database") }
 
     private fun searchFromApi(place: String): Observable<Venue> =
         venueApiClient.searchVenues(place)
@@ -57,7 +55,6 @@ class VenueRepositoryImpl(
                 venueDAO.insert(venue)
                 placeDAO.insert(Place(venueId = venue.id, name = place))
             }
-            .doOnSubscribe { Log.d(LOG_TAG, "Searching from Foursquare API") }
 
     private fun getDetailsFromDatabase(id: String): Observable<VenueDetails> =
         Maybe.fromCallable { venueDAO.getVenueDetails(id) }
@@ -68,7 +65,6 @@ class VenueRepositoryImpl(
                 }
             )
             .toObservable()
-            .doOnSubscribe { Log.d(LOG_TAG, "Getting details from database") }
 
     private fun getDetailsFromApi(id: String): Observable<VenueDetails> =
         venueApiClient.getVenueDetails(id)
@@ -76,9 +72,4 @@ class VenueRepositoryImpl(
                 venueDAO.update(venueDetails.venue.copy(incomplete = false))
                 photoDAO.insert(venueDetails.photos)
             }
-            .doOnSubscribe { Log.d(LOG_TAG, "Getting details from Foursquare API") }
-
-    companion object {
-        private const val LOG_TAG = "VENUE_REPOSITORY"
-    }
 }
