@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">foursquare-demo</string>
 
+    <string name="message_empty_list">No venues found for %1$s</string>
+    <string name="message_failed_details">Could not load venue details</string>
+
     <string name="label_address">Address</string>
     <string name="label_contact">Contact</string>
 

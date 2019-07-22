@@ -1,5 +1,6 @@
 package nl.zoostation.fsd.app
 
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import nl.zoostation.fsd.di.ApplicationComponent
@@ -19,3 +20,10 @@ val FragmentActivity.applicationComponent: ApplicationComponent
 
 val Fragment.applicationComponent: ApplicationComponent
     get() = requireApplication().applicationComponent
+
+fun Fragment.setUpNavigationEnabled(flag: Boolean) {
+    val activity = requireActivity()
+    if (activity is AppCompatActivity) {
+        activity.supportActionBar?.setDisplayHomeAsUpEnabled(flag)
+    }
+}

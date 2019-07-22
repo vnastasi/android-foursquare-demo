@@ -19,11 +19,11 @@ fun setDescription(view: TextView, venue: Venue?) {
 }
 
 @BindingAdapter("showWhenContactAvailable")
-fun hasContact(group: Group, venue: Venue?) {
+fun hasContact(view: TextView, venue: Venue?) {
     if (venue?.contactInfo == null) {
-        group.hide()
+        view.hide()
     } else {
-        group.show()
+        view.show()
     }
 }
 

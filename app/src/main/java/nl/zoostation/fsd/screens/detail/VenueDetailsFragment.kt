@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.fragment_venue_details.*
 import nl.zoostation.fsd.BR
 import nl.zoostation.fsd.R
 import nl.zoostation.fsd.app.applicationComponent
+import nl.zoostation.fsd.app.setUpNavigationEnabled
 import nl.zoostation.fsd.databinding.FragmentVenueDetailsBinding
 import nl.zoostation.fsd.persistence.model.VenueDetails
 import nl.zoostation.fsd.screens.hide
@@ -46,6 +47,7 @@ class VenueDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         startObserving()
+        setUpNavigationEnabled(true)
     }
 
     private fun startObserving() {
@@ -56,33 +58,40 @@ class VenueDetailsFragment : Fragment() {
 
     private fun handleDetailsState(state: VenueDetailsState) {
         when (state) {
-            is VenueDetailsState.Loading ->
-                showProgressBar()
+            is VenueDetailsState.Loading -> {
+                mainContentCard.hide()
+                txtMessage.hide()
+                progressBar.show()
+            }
 
             is VenueDetailsState.Loaded -> {
-                hideProgressBar()
-                dataBinding.setVariable(BR.venue, state.details.venue)
-                dataBinding.executePendingBindings()
-                showPhoto(state.details)
+                progressBar.hide()
+                txtMessage.hide()
+                mainContentCard.show()
+                handleDataLoaded(state.details)
             }
 
             is VenueDetailsState.Failed -> {
-                hideProgressBar()
-                val message = state.throwable.message ?: "Unknown error"
-                Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG).show()
-                Log.e("VenueListFragment", message, state.throwable)
+                progressBar.hide()
+                mainContentCard.hide()
+                txtMessage.show()
+                handleFailure(state.throwable)
             }
         }
     }
 
-    private fun showProgressBar() {
-        mainContentGroup.hide()
-        progressBar.show()
+    private fun handleDataLoaded(venueDetails: VenueDetails) {
+        dataBinding.setVariable(BR.venue, venueDetails.venue)
+        dataBinding.executePendingBindings()
+        showPhoto(venueDetails)
     }
 
-    private fun hideProgressBar() {
-        progressBar.hide()
-        mainContentGroup.show()
+    private fun handleFailure(throwable: Throwable) {
+        txtMessage.setText(R.string.message_failed_details)
+
+        val errorMessage = throwable.message ?: "Unknown error"
+        Snackbar.make(requireView(), errorMessage, Snackbar.LENGTH_LONG).show()
+        Log.e(TAG, errorMessage, throwable)
     }
 
     private fun showPhoto(venueDetails: VenueDetails) {

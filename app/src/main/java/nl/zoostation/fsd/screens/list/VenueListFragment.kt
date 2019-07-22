@@ -10,6 +10,10 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_venue_list.*
 import nl.zoostation.fsd.R
 import nl.zoostation.fsd.app.applicationComponent
+import nl.zoostation.fsd.app.setUpNavigationEnabled
+import nl.zoostation.fsd.persistence.model.Venue
+import nl.zoostation.fsd.screens.hide
+import nl.zoostation.fsd.screens.show
 import javax.inject.Inject
 
 class VenueListFragment : Fragment() {
@@ -36,6 +40,7 @@ class VenueListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         startObserving()
         setupList()
+        setUpNavigationEnabled(false)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -76,7 +81,7 @@ class VenueListFragment : Fragment() {
             }
             is VenueListState.Loaded -> {
                 swipeRefresh.isRefreshing = false
-                listAdapter.submitList(state.list)
+                fillList(state.list)
             }
             is VenueListState.Failed -> {
                 swipeRefresh.isRefreshing = false
@@ -84,6 +89,18 @@ class VenueListFragment : Fragment() {
                 Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG).show()
                 Log.e("VenueListFragment", message, state.throwable)
             }
+        }
+    }
+
+    private fun fillList(list: List<Venue>) {
+        if (list.isEmpty()) {
+            recyclerView.hide()
+            txtMessage.text = getString(R.string.message_empty_list, viewModel.lastSearchedPlace)
+            txtMessage.show()
+        } else {
+            txtMessage.hide()
+            recyclerView.show()
+            listAdapter.submitList(list)
         }
     }
 

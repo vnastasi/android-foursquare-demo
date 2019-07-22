@@ -1,7 +1,7 @@
 package nl.zoostation.fsd.screens
 
 import android.os.Bundle
-import android.widget.Toast
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.transaction
 import androidx.lifecycle.Observer
@@ -32,8 +32,18 @@ class MainActivity : AppCompatActivity() {
         showVenueList()
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if (item.itemId == android.R.id.home) {
+            onBackPressed()
+            true
+        } else {
+            super.onOptionsItemSelected(item)
+        }
+    }
+
     private fun setupActionBar() {
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
     }
 
     private fun startObserving() {
@@ -42,7 +52,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleSelectedVenue(venue: Venue) {
-        Toast.makeText(this, "Selected venue ${venue.name}", Toast.LENGTH_LONG).show()
         showVenueDetails(venue.id)
     }
 

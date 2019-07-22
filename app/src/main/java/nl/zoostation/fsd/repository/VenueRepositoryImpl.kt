@@ -3,9 +3,12 @@ package nl.zoostation.fsd.repository
 import android.util.Log
 import io.reactivex.Maybe
 import io.reactivex.Observable
+import io.reactivex.ObservableSource
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
+import io.reactivex.functions.Function
 import nl.zoostation.fsd.api.client.VenueApiClient
+import nl.zoostation.fsd.exception.NetworkUnavailableException
 import nl.zoostation.fsd.persistence.dao.PhotoDAO
 import nl.zoostation.fsd.persistence.dao.PlaceDAO
 import nl.zoostation.fsd.persistence.dao.VenueDAO
@@ -22,10 +25,26 @@ class VenueRepositoryImpl(
 ) : VenueRepository {
 
     override fun searchVenues(place: String): Single<List<Venue>> =
-        searchFromDatabase(place).switchIfEmpty(searchFromApi(place)).toList()
+        searchFromApi(place)
+            .onErrorResumeNext(Function<Throwable, ObservableSource<Venue>> { throwable ->
+                if (throwable is NetworkUnavailableException) {
+                    searchFromDatabase(place)
+                } else {
+                    Observable.error(throwable)
+                }
+            })
+            .toList()
 
     override fun getVenueDetails(id: String): Single<VenueDetails> =
-        getDetailsFromDatabase(id).switchIfEmpty(getDetailsFromApi(id)).singleOrError()
+        getDetailsFromApi(id)
+            .onErrorResumeNext(Function<Throwable, ObservableSource<VenueDetails>> { throwable ->
+                if (throwable is NetworkUnavailableException) {
+                    getDetailsFromDatabase(id)
+                } else {
+                    Observable.error(throwable)
+                }
+            })
+            .singleOrError()
 
     private fun searchFromDatabase(place: String): Observable<Venue> =
         Observable.fromCallable { venueDAO.findVenues(place) }
