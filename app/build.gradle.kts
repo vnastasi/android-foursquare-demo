@@ -3,6 +3,7 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     kotlin("android.extensions")
+    id("org.jetbrains.kotlin.plugin.allopen") version "1.3.31"
 }
 
 android {
@@ -13,7 +14,7 @@ android {
         targetSdkVersion(29)
         versionCode = 1
         versionName = "1.0"
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "nl.zoostation.fsd.runner.EspressoTestRunner"
 
         buildConfigField("String", "BASE_URL", "\"https://api.foursquare.com\"")
         buildConfigField("String", "CLIENT_ID", "\"L2UXPM54VOBZJRQWKVIZLYAQHJJH3FTJTQIBULVQO2E0FQ2L\"")
@@ -36,6 +37,10 @@ android {
 
 androidExtensions {
     isExperimental = true
+}
+
+allOpen {
+    annotation("nl.zoostation.fsd.app.Open")
 }
 
 dependencies {

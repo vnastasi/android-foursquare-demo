@@ -24,6 +24,10 @@ interface ApplicationComponent {
         @BindsInstance
         fun application(application: Application): Builder
 
+        fun rxModule(rxModule: RxModule): Builder
+
+        fun repositoryModel(repositoryModule: RepositoryModule): Builder
+
         fun build(): ApplicationComponent
     }
 }
